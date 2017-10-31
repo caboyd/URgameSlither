@@ -2075,7 +2075,7 @@ function GameClient() {
 
 		testing && (console.log("connecting to " + server + ":" + port + "... "));
 		//ws = new WebSocket("ws://" + bso.ip + ":" + bso.po + "/slither");
-		ws = new WebSocket("ws://" + server + ":" + port + "/game/socket");
+		ws = new WebSocket("wss://" + server + ":" + port + "/game/socket");
 		ws.binaryType = "arraybuffer";
 		window.ws = ws;
 		ws.onmessage = function (b) {
