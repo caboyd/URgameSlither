@@ -2066,14 +2066,11 @@ function GameClient() {
 
 
 	function connect() {
+		var server = window.location.hostname;
+		var port = 8080;
 		var cstring = "ws://" + server + ":" + port + "/game/socket";
-		server = window.location.hostname;
-		if(server = "urgame.me"){
+		if(server = "urgame.me")
 			cstring = "wss://" + server + "/game/socket";
-		}else{
-			
-		}
-		port = 8080;
 
 		resetGame();
 		connecting = 1;
