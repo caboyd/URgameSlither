@@ -1,0 +1,100 @@
+<div class="row card block">
+    <div class="row">
+        <div class="col-sm-5 well">
+            <h5>Daily/Global Stats</h5>
+        </div>
+        <div class="col-sm-2 well imp main-red">
+            <div> Peak Time</div>
+            <% if (!dailyStatsList.peak.time) { %>
+            Not Available
+            <% } else { %>
+            <%= getMinutesAgo(dailyStatsList.peak.time) %> ago
+            <% } %>
+        </div>
+        <div class="col-sm-2 well imp main-orange">
+            <div> Peak Users</div>
+            <% if (dailyStatsList.peak.concurrent == 0) { %>
+            Not Available
+            <% } else { %>
+            <%= dailyStatsList.peak.concurrent %>
+            <% } %>
+        </div>
+        <div class="col-sm-3 well imp main-green">
+            <div> Unique Users Today</div>
+            <div><%= dailyStatsList.totals.unique_users %></div>
+        </div>
+    </div>  <!--end of row for main info section-->
+    <br>
+</div>
+
+<div class="row" id="spacingBelowBox">
+    <div class="col-sm box0">
+        <div class="box1 boosts">
+            <span class="fa fa-bolt"></span>
+            <h4><%= dailyStatsList.totals.boosts %></h4>
+            <div>Total Boosts Today</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1">
+            <span class="fa fa-gamepad"></span>
+            <h4><%= dailyStatsList.totals.deaths %></h4>
+            <div>Total Games Today</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1">
+            <span class="fa fa-clock-o"></span>
+            <h4><%= secondsToHms((dailyStatsList.totals.duration).toFixed(0)) %></h4>
+            <div>Total Time Played Today</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1 kills">
+            <span class="fa fa-gamepad"></span>
+            <h4><%= dailyStatsList.totals.kills %></h4>
+            <div>Total Snake Kills Today</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1 boosts">
+            <span class="fa fa-bolt"></span>
+            <h4><%= calculatedStatsList.totals.all_time.boosts %></h4>
+            <div>Total Boosts Used Ever</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1">
+            <span class="fa fa-gamepad"></span>
+            <h4><%= calculatedStatsList.totals.all_time.deaths %></h4>
+            <div>Total Games Ever</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1">
+            <span class="fa fa-clock-o"></span>
+            <h4><%= secondsToHms((calculatedStatsList.totals.all_time.duration).toFixed(0)) %></h4>
+            <div>Total Time Player Ever</div>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1 kills">
+            <span class="fa fa-gamepad"></span>
+            <h4><%= calculatedStatsList.totals.all_time.kills %></h4>
+            <div>Total Snake Kills Ever</div>
+        </div>
+    </div>
+</div>  <!--for row-->
+
+<div class="row">
+    <div class="col-sm-12 card">
+        <div id="avgSnakeLengthAllchartdiv" class="amchart"
+             aria-label="Average Snake Score of all users over 5 sec intervals"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 card">
+        <div id="highestSnakeLengthAllchartdiv" class="amchart"
+             aria-label="Highest Snake Score of all users over 5 second intervals"></div>
+    </div>
+</div>

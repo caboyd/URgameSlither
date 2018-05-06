@@ -1,22 +1,18 @@
 
-
 var express = require('express');
 var path = require('path');
 //var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./config');
 
 //The .js files
-var index = require('./routes/index');
-var stats = require('./routes/stats');
-var globalstats = require('./routes/globalstats');
-var profilestats = require('./routes/profilestats');
-var getData = require('./routes/getData');
-var oauth2 = require('./lib/oauth2');
-var cookie = require('./lib/cookie');
-
-
+var index = require('./src/app/controllers/index');
+var oauth2 = require('./src/app/lib/oauth2');
+var cookie = require('./src/app/lib/cookie');
+var statsController = require('./src/app/controllers/statsController');
+var gameController = require('./src/app/controllers/gameController');
 
 const passport = require('passport');
 const session = require('express-session');
@@ -44,7 +40,7 @@ db.on('error', function (err) {
 //your node process. Which is why you used path and dirname
 app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src/app/views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -58,37 +54,38 @@ app.use(cookieParser());
 const sessionConfig = {
     resave: false,
     saveUninitialized: false,
-    secret: "n5QL0atAVhe5rQvZuwmyczX4",
-    //secret: config.get('SECRET'),
+    //secret: "n5QL0atAVhe5rQvZuwmyczX4",
+    secret: config.get('SECRET'),
     signed: true
 };
+
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/',cookie);
-//app.use(cookie.router);
 
-app.use(require('./lib/oauth2').router);
+//app.use(cookie.router);
+app.use(cookie);
+app.use(oauth2.router);
+app.use(oauth2.template);
 
 
 //Routes
 app.use('/', index);
-app.use('/', globalstats);
-app.use('/', profilestats);
-app.use('/', stats);
-app.use('/',getData);
+app.use('/stats',statsController);
+app.use('/game',gameController);
 
-// catch 404 and forward to error handler
+
+
+// redirect all other urls to homepage
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  res.redirect("/");
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+	
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

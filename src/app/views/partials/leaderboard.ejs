@@ -1,0 +1,83 @@
+<div style="margin-left: auto; margin-right: auto; text-align: center; opacity: 1;">
+    <div id="lb-title" class="nsi"
+         style="opacity:0; position: relative;  text-align: center; width: 255px; height: 28px; color: rgb(255, 255, 255); font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-size: 21px; font-weight: bold; overflow: hidden; z-index: 7; display: inline; cursor: default; transform: translateZ(0px);">
+        Leaderboard
+    </div>
+    <span id="lb-empty"></span>
+    <table style="table-layout: fixed; width: 186px; margin-left: auto; margin-right: auto; font-family: Arial, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-size: 16px;">
+        <colgroup>
+            <col style="width: 30px">
+            <col style="width: 150px">
+            <col style="width: 50px">
+        </colgroup>
+        <tr>
+            <th id="lb-rank" style="text-align: left;"></th>
+            <th id="lb-name" style="text-align: left;"></th>
+            <th id="lb-score" style="text-align: right;"></th>
+        </tr>
+    </table>
+</div>
+
+<script>
+	(function start() {
+		var host = window.document.location.host.replace(/:.*/, '');
+		var ws;
+		if (host !== "urgame.me") {
+			ws = new WebSocket('ws://' + host + ':8080/game/socket')
+		} else {
+			ws = new WebSocket('wss://' + host + '/game/socket')
+		}
+
+		ws.onmessage = function (event) {
+			if (event.data)
+				makeLeaderboard(event.data);
+		}
+
+		ws.onclose = function () {
+			setTimeout(function () {
+				start()
+			}, 5000);
+		}
+
+		this.send = function (message, callback) {
+			this.waitForConnection(function () {
+				ws.send(message);
+				if (typeof callback !== 'undefined') {
+					callback();
+				}
+			}, 1000);
+		};
+
+		this.waitForConnection = function (callback, interval) {
+			if (ws.readyState === 1) {
+				console.log("leaderboard connected");
+				callback();
+			} else {
+				var that = this;
+				setTimeout(function () {
+					that.waitForConnection(callback, interval);
+				}, interval);
+			}
+		}
+		this.send(new Uint8Array([224, 1]));
+
+		function makeLeaderboard(data) {
+			data = JSON.parse(data);
+			var score = "";
+			var rank = "";
+			var name = "";
+			var color = "rgb(210,210,210)";
+			for (var i = 0; i < data.length; i++) {
+				score += '<span style="color:' + color + ';">' + data[i]["score"] + "</span><BR>";
+				name += '<span style="color:' + color + ";" + "font-weight:bold;" + '">' + data[i]["name"] + "</span><BR>";
+				rank += '<span style="color:' + color + ';">#' + (i + 1) + "</span><BR>"
+			}
+
+			document.getElementById("lb-title").style.opacity = 1;
+			document.getElementById("lb-name").innerHTML = name;
+			document.getElementById("lb-score").innerHTML = score;
+			document.getElementById("lb-rank").innerHTML = rank;
+
+		}
+	}())
+</script>

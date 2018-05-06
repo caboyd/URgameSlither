@@ -1,0 +1,43 @@
+<% include partials/header %>
+
+<script>
+    //All the variables declared are from the server to be used in the script.js file.
+    //used '-' instead of '=' because '-' "outputs the unescaped value into the template"
+    var avgSnakeLengthChartData = <%- JSON.stringify(avgSnakeLengths) %>
+    var highestSnakeLengthChartData = <%- JSON.stringify(highestSnakeLengths) %>
+    var bestScoreAndKillsChartData = <%- JSON.stringify(bestScoreAndKills) %>
+    var cumulativeMovingScoreChartData = <%- JSON.stringify(cumulativeMovingScore) %>
+    var avgSnakeLengthAllChartData = <%- JSON.stringify(avgSnakeLengthAll) %>
+    var highestSnakeLengthAllChartData = <%- JSON.stringify(highestSnakeLengthAll) %>
+    var totalGamesPlayedByUser = <%= usersStatsList.totals.deaths %>
+    var avgScore = <%= (usersStatsList.totals.length / usersStatsList.totals.deaths).toFixed(0) %>
+    var avgKills = <%= (usersStatsList.totals.boosts / usersStatsList.totals.deaths).toFixed(0) %>
+    var avgBoosts = <%= (usersStatsList.totals.kills / usersStatsList.totals.deaths).toFixed(0) %>
+</script>
+
+<% include partials/nav %>
+
+
+<div class=" container tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+        <div id="ajaxUpdateProfileStats">
+
+            <% include profilestats%>
+
+        </div> <!--for ajax call-->
+
+        <!--todo Make the graphs load with the ajax call as well-->
+
+    </div> <!--tab-pane for profile-->
+    <div class="tab-pane fade" id="global" role="tabpanel" aria-labelledby="global-tab">
+
+        <div id="ajaxUpdateGlobalStats">
+            <% include globalstats %>
+        </div> <!--for ajax call-->
+
+    </div> <!--tab-pane for global-->
+</div><!--For Container-->
+
+
+<% include partials/footer %>

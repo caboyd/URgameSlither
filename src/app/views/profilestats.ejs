@@ -1,0 +1,151 @@
+<div class="row card block">
+    <div class="row">
+        <div class="col-sm-6 well" id="profile-name">
+            <% if (usersStatsList.totals.deaths <= 0) { %>
+            Please play a game
+            <% } else { %>
+            <h5><%= usersList.snake.name %></h5>
+            <span>Last game played: <%= getMinutesAgo(usersStatsList.lastModifiedOn) %>
+                ago
+                <% } %>
+            </span>
+        </div>
+        <div class="col-sm-2 well imp main-red">
+            <div style="word-wrap:normal">Average Score</div>
+            <% if (isNaN(usersStatsList.totals.length / usersStatsList.totals.deaths)) { %>
+            <div>0</div>
+            <% } else { %>
+            <div><%= (usersStatsList.totals.length / usersStatsList.totals.deaths).toFixed(0) %></div>
+            <% } %>
+            <p id="progress0" data-min="0" data-max="<%= usersStatsList.best_snake.length %>"
+               data-mode="none"></p>
+        </div>
+        <div class="col-sm-2 well imp main-orange">
+            <div style="word-wrap:normal">Average Boosts</div>
+            <% if (isNaN(usersStatsList.totals.boosts / usersStatsList.totals.deaths)) { %>
+            <div>0</div>
+            <% } else { %>
+            <div><%= (usersStatsList.totals.boosts / usersStatsList.totals.deaths).toFixed(0) %></div>
+            <% } %>
+            <p id="progress1" data-min="0" data-max="<%= usersStatsList.best_snake.boosts  %>"
+               data-mode="none"></p>
+        </div>
+        <div class="col-sm-2 well imp main-green">
+            <div style="word-wrap:normal">Average Kills</div>
+            <% if (isNaN(usersStatsList.totals.kills / usersStatsList.totals.deaths)) { %>
+            <div>0</div>
+            <% } else { %>
+            <div><%= (usersStatsList.totals.kills / usersStatsList.totals.deaths).toFixed(2) %></div>
+            <% } %>
+
+            <p id="progress2" data-min="0" data-max="<%=usersStatsList.best_snake.kills  %>"
+               data-mode="none"></p>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="spacingBelowBox">
+
+    <div class="col-sm box0">
+        <div class="box1 best">
+            <span class="fa fa-gamepad"></span>
+            <h4><%= usersStatsList.totals.length %></h4>
+            <span class="one-line">Total Score</span>
+        </div>
+    </div>
+
+    <div class="col-sm box0">
+        <div class="box1 best">
+            <span class="fa fa-trophy"></span>
+            <h4><%= usersStatsList.best_snake.length %></h4>
+            <span class="one-line">Best Score</span>
+        </div>
+    </div>
+
+    <div class="col-sm box0">
+        <div class="box1 best">
+            <span class="fa fa-clock-o"></span>
+            <h4><%= secondsToHms((usersStatsList.best_snake.duration).toFixed(0)) %></h4>
+            <span class="one-line">Best Time</span>
+        </div>
+    </div>
+
+    <div class="col-sm box0">
+        <div class="box1 boosts">
+            <span class="fa fa-bolt"></span>
+            <h4><%= usersStatsList.totals.boosts %></h4>
+            <span class="one-line">Total Boost</span>
+        </div>
+    </div>
+
+    <div class="col-sm box0">
+        <div class="box1 kills">
+            <span class="fa fa-gamepad"></span>
+            <h4> <%= usersStatsList.totals.kills %></h4>
+            <span class="one-line">Total Kills</span>
+        </div>
+    </div>
+    <div class="col-sm box0">
+        <div class="box1 kills">
+            <span class="fa fa-certificate"></span>
+            <h4><%= usersStatsList.records.largest_snake_killed_length %></h4>
+            <span class="one-line">Largest Kill</span>
+        </div>
+    </div>
+
+    <div class="col-sm box0">
+        <div class="box1 kills">
+            <span class="fa fa-gamepad"></span>
+            <h4><%= usersStatsList.records.highest_kills %></h4>
+            <span class="one-line">Highest Kills</span>
+        </div>
+    </div>
+
+    <div class="col-sm box0">
+        <div class="box1">
+            <span class="fa fa-play"></span>
+            <h4><%= usersStatsList.totals.deaths %></h4>
+            <span class="one-line">Games Played</span>
+        </div>
+    </div>
+</div>  <!--end of row -> Single data value section -> Profile section-->
+
+<div class="row">
+    <div class="col-sm-12 card">
+        <div id="avgSnakeLengthchartdiv" class="amchart" aria-label="Average Score over time"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 card">
+        <div id="highestSnakeLengthchartdiv" class="amchart" aria-label="Maximum Score over time"></div>
+    </div>
+</div>
+
+<div class="row card">
+    <div class="row">
+        <div class="col-sm-4 well">
+            <h5>Your Best Snake Game</h5>
+        </div>
+        <div class="col-sm-2 well imp main-red">
+            <div> Score: <%= usersStatsList.best_snake.length %></div>
+        </div>
+        <div class="col-sm-2 well imp main-orange">
+            <div> Kills: <%= usersStatsList.best_snake.kills %></div>
+        </div>
+        <div class="col-sm-2 well imp">
+            <div> Duration: <%= secondsToHms((usersStatsList.best_snake.duration).toFixed(0)) %></div>
+        </div>
+        <div class="col-sm-2 well imp">
+            <div> Boosts: <%= usersStatsList.best_snake.boosts %></div>
+        </div>
+    </div>
+    <div class="col-sm-12 ">
+        <div id="bestScoreAndKillschartdiv" class="amchart" aria-label="Best Game Score and Kills"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 card">
+        <div id="cumulativeMovingScorechartdiv" class="amchart" aria-label="Average score per game"></div>
+    </div>
+</div>
+
