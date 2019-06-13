@@ -10,10 +10,10 @@ npm install
 npm run dev
 
 # Technologies
-Node.js
-Websockets
-OAuth 2.0
-Bootstrap 4.0
+Node.js  
+Websockets  
+OAuth 2.0  
+Bootstrap 4.0  
 
 
 # Images
