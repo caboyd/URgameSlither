@@ -17,10 +17,10 @@ Bootstrap 4.0
 
 
 # Images
-![](http://caboyd.me/URgameSlither/7.png)
-![](http://caboyd.me/URgameSlither/1.png)
-![](http://caboyd.me/URgameSlither/2.png)
-![](http://caboyd.me/URgameSlither/6.png)
-![](http://caboyd.me/URgameSlither/3.png)
-![](http://caboyd.me/URgameSlither/4.png)
-![](http://caboyd.me/URgameSlither/5.png)
+![](http://caboyd.me/URgameSlither/7.PNG)
+![](http://caboyd.me/URgameSlither/1.PNG)
+![](http://caboyd.me/URgameSlither/2.PNG)
+![](http://caboyd.me/URgameSlither/6.PNG)
+![](http://caboyd.me/URgameSlither/3.PNG)
+![](http://caboyd.me/URgameSlither/4.PNG)
+![](http://caboyd.me/URgameSlither/5.PNG)
